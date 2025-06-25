@@ -37,8 +37,8 @@ export const handler = async (event) => {
         allowed_countries: ['US', 'CA'] // Use ISO 2-letter country code
       },
       line_items,
-      success_url: "http://localhost:5173/success??session_id={CHECKOUT_SESSION_ID}", // TODO: Change to "https://yourdomain.com/success"
-      cancel_url: "http://localhost:5173/cancel", // TODO: Change to "https://yourdomain.com/cancel"
+      success_url: "http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}", // TODO: Change to "https://yourdomain.com/success"
+      cancel_url: "http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}", // TODO: Change to "https://yourdomain.com/cancel"
     });
 
     return {
