@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@easypost/api": "^8.2.0",
     "stripe": "^18.2.1"
   }
 }
