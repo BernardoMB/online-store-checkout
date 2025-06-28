@@ -5,6 +5,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY); // Store this in AWS L
 const easypost = new EasyPost(process.env.EASYPOST_API_KEY); // Store this in AWS Lambda environment variables
 
 export const handler = async (event) => {
+  console.log('event', event);
+  console.log('event.body', event.body);
   if (event.httpMethod === "OPTIONS") {
     return {
       statusCode: 200,
@@ -20,18 +22,24 @@ export const handler = async (event) => {
   try {
     const { items, shipping } = JSON.parse(event.body);
 
-    const line_items = items.map((item) => ({
-      price_data: {
-        currency: "usd",
-        product_data: {
-          name: item.productName,
-          description: item.description, // optional
-          images: [item.imageUrl] // optional
+    const line_items = items.map((item) => {
+      const obj = {
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: item.productName,
+            description: item.description, // optional
+            images: [item.imageUrl] // optional
+          },
+          unit_amount: Math.round(item.price * 100), // Stripe expects cents
         },
-        unit_amount: Math.round(item.price * 100), // Stripe expects cents
-      },
-      quantity: item.quantity,
-    }));
+        quantity: item.quantity,
+      }
+      if (!item.imageUrl) {
+        delete obj.price_data.product_data.images;
+      }
+      return obj;
+    });
 
     // Estimate shipping using EasyPost
     const toAddress = await easypost.Address.create({
