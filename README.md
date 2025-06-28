@@ -1,5 +1,7 @@
-# online-store
-Online store
+# online-store-checkout
+Online store Checkout Lambda
+
+This a Lambda function to create Stipe's Checkout session. This functions returns the Stripe's session ID that later on is used by Stripe's React JS SDK on the client side to redirect the user to the Stripe Checkout site.
 
 # Deploy
 To deploy this code see the following instruction: 
