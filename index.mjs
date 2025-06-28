@@ -35,7 +35,7 @@ export const handler = async (event) => {
         },
         quantity: item.quantity,
       }
-      if (!item.imageUrl) {
+      if (!item.imageUrl || !item.imageUrl.startsWith("https://")) {
         delete obj.price_data.product_data.images;
       }
       return obj;
